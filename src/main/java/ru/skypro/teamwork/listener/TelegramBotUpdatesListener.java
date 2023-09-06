@@ -19,21 +19,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final MessageService messageService;
     private final TelegramBot telegramBot;
     @PostConstruct
-    public void init() {
-        telegramBot.setUpdatesListener(this);
-    }
+    public void init() {telegramBot.setUpdatesListener(this);}
 
     @Override
     public int process(List<Update> updates) {
-        updates.forEach(update -> {
-            log.info("Processing update: {}", update);
+        updates.forEach(update -> { log.info("Processing update: {}", update);
 
-            if (update.callbackQuery() != null) {
-                messageService.queryHandler(update);
-            } else if (update.message() != null && update.message().text() != null) {
-                messageService.messageHandler(update);
-            }
-        });
-        return UpdatesListener.CONFIRMED_UPDATES_ALL;
-    }
+            if (update.callbackQuery() != null) { messageService.queryHandler(update);
+            } else if (update.message() != null && update.message().text() != null) {messageService.messageHandler(update); }});
+        return UpdatesListener.CONFIRMED_UPDATES_ALL;}
 }
