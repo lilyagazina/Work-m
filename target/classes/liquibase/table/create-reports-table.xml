@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="Ash">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="reports"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="reports">
+            <column name="id" type="BIGSERIAL" startWith="1" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="text" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="photo" type="VARCHAR(255)"/>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pet_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="2" author="Ash">
+        <preConditions>
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_REPORT_ON_PET_ID"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="reports"
+                                 baseColumnNames="pet_id"
+                                 constraintName="FK_REPORT_ON_PET_ID"
+                                 referencedTableName="pets"
+                                 referencedColumnNames="id"
+                                 deleteCascade="true"/>
+    </changeSet>
+</databaseChangeLog>

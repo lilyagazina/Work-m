@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="Ash">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="pets"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="pets">
+            <column name="id" type="SERIAL" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="species" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="breed" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="age" type="INT"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="owner_id" type="INT"/>
+            <column name="date_adoption" type="DATE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Ash">
+        <preConditions>
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_PET_TO_USERS_ID"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint constraintName="FK_PET_TO_USERS_ID"
+                                 baseColumnNames="owner_id"
+                                 baseTableName="pets"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+</databaseChangeLog>
